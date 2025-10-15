@@ -3,25 +3,31 @@ import express from "express";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors()); // permite peticiones desde cualquier origen
-app.use(express.json());
-app.use(express.static("public")); // sirve tu frontend si lo pones en /public
+// Para poder usar __dirname en módulos ES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Configurar Cloudinary
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public"))); // sirve archivos estáticos
+
+// Configuración de Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// ✅ Ruta para eliminar imagen por public_id
+// Ruta para eliminar imagen por public_id
 app.delete("/delete/:publicId", async (req, res) => {
   const { publicId } = req.params;
   try {
@@ -37,7 +43,7 @@ app.delete("/delete/:publicId", async (req, res) => {
   }
 });
 
-// ✅ Ruta opcional para listar imágenes en Cloudinary
+// Ruta opcional para listar imágenes
 app.get("/list-images", async (req, res) => {
   try {
     const resources = await cloudinary.api.resources({ type: "upload", max_results: 100 });
@@ -48,5 +54,10 @@ app.get("/list-images", async (req, res) => {
   }
 });
 
-// Servidor
+// Catch-all para que cualquier otra ruta cargue index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Iniciar servidor
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
