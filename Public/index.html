@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Nodos e Imágenes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- CABECERA FIJA -->
+  <div class="top-bar">
+    <h2>📂 Gestor de Nodos e Imágenes</h2>
+
+    <div class="folder-path">
+      <strong>Ruta actual:</strong> <span id="selectedFolder">/</span>
+    </div>
+
+    <div class="upload-section">
+      <h4>📸 Añadir Imagen</h4>
+      <div class="upload-fields">
+        <input type="file" id="imgFile" accept="image/*">
+        <input type="text" id="imgName" placeholder="Nombre de la imagen">
+        <input type="text" id="imgType" placeholder="Tipo (ej: cilindro, panel)">
+        <button id="btnAddImage">Subir Imagen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="container">
+    <div class="column" id="col1"></div>
+    <div class="column" id="col2"></div>
+    <div class="column" id="col3"></div>
+  </div>
+
+ <!-- MODAL PARA VER IMÁGENES -->
+<div class="modal" id="imageModal" style="display: none;">
+  <img src="">
+</div>
+
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
