@@ -240,7 +240,7 @@ function loadCol3(data3) {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/delete/${img.public_id}`,
+          `https://gestor-nodos.onrender.com/delete/${img.public_id}`,
           { method: "DELETE" }
         );
         const result = await res.json();
