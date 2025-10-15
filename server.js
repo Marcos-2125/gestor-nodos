@@ -55,9 +55,10 @@ app.get("/list-images", async (req, res) => {
 });
 
 // Catch-all: sirve index.html para todas las rutas de frontend
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 // Servidor
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
