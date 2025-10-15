@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Configuración de Cloudinary
+// Configuración Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -34,7 +34,7 @@ app.delete("/delete/:publicId", async (req, res) => {
     if (result.result === "ok") {
       return res.json({ success: true, message: "Imagen eliminada" });
     } else {
-      return res.json({ success: false, error: "No se pudo eliminar. Verifica el public_id." });
+      return res.json({ success: false, error: "No se pudo eliminar." });
     }
   } catch (error) {
     console.error(error);
@@ -52,11 +52,9 @@ app.get("/list-images", async (req, res) => {
   }
 });
 
-// Servir frontend en cualquier otra ruta
-app.get("/*", (req, res) => {
+// ⚡ Catch-all compatible con todas las versiones
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Servidor
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
-
